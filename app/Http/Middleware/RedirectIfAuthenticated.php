@@ -21,7 +21,20 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                // return redirect(RouteServiceProvider::HOME);
+                if (auth()->user()->role->id == 1) {
+                    return redirect()->intended(RouteServiceProvider::OWNER);
+                } else if (auth()->user()->role->id == 2) {
+                    return redirect()->intended(RouteServiceProvider::FARMER);
+                } else {
+                    Auth::guard('web')->logout();
+
+                    $request->session()->invalidate();
+
+                    $request->session()->regenerateToken();
+
+                    return response('Unauthorized.', 401);
+                }
             }
         }
 

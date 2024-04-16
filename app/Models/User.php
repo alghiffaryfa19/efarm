@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -42,4 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(\App\Models\Role::class, 'role_id','id');
+    }
+
+    public function farmer()
+    {
+        return $this->hasOne(\App\Models\Farmer::class, 'user_id','id');
+    }
 }
