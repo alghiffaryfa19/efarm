@@ -16,8 +16,5 @@ class Farmer extends Model
         return $this->belongsTo(\App\Models\User::class, 'user_id','id');
     }
 
-    public function screening()
-    {
-        return $this->hasMany(\App\Models\Screening::class, 'farmer_id','id');
-    }
+
 }

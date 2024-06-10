@@ -1,63 +1,102 @@
-<x-farmer-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Screening') }}
-        </h2>
-    </x-slot>
+@extends('layouts.new_farmer')
+@section('title', 'Screening')
+@section('contents')
+    <!--begin::Toolbar-->
+    <div class="py-5 toolbar pb-lg-15" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="flex-wrap container-xxl d-flex flex-stack">
+            <!--begin::Page title-->
+            <div class="page-title d-flex flex-column me-3">
+                <!--begin::Title-->
+                <h1 class="my-1 text-white d-flex fw-bold fs-3">Screening</h1>
+                <!--end::Title-->
+                <!--begin::Breadcrumb-->
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-
-
-
-                <div class="p-6 text-gray-900">
-                    <a href="{{route('screening.create')}}" type="button" class="inline-flex gap-x-2 items-center px-4 py-3 text-sm font-semibold text-white bg-blue-600 rounded-lg border border-transparent hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-basic-modal">
-                        Add Screening
-                      </a>
-                    <div class="flex flex-col">
-                        <div class="overflow-x-auto -m-1.5">
-                          <div class="inline-block p-1.5 min-w-full align-middle">
-                            <div class="overflow-hidden">
-                              <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                  <tr>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-start">Plant</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-start">Date</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-end">Screening</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-end">Edit</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-end">Delete</th>
-                                  </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    @foreach ($screening as $item)
-                                    <tr>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">{{$item->plant->name}}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">{{$item->date_time}}</td>
-                                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                                            <a href="{{route('sub_screening', $item->id)}}" type="button" class="inline-flex gap-x-2 items-center text-sm font-semibold text-blue-600 rounded-lg border border-transparent hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Start Screening</a>
-                                          </td>
-                                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                                          <a href="{{route('screening.edit', $item->id)}}" type="button" class="inline-flex gap-x-2 items-center text-sm font-semibold text-blue-600 rounded-lg border border-transparent hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Edit</a>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                                            <form action="{{route('screening.destroy', $item->id)}}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="inline-flex gap-x-2 items-center text-sm font-semibold text-blue-600 rounded-lg border border-transparent hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Delete</button>
-                                            </form>
-
-                                          </td>
-                                      </tr>
-                                    @endforeach
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                </div>
+                <!--end::Breadcrumb-->
             </div>
+            <!--end::Page title-->
+
         </div>
+        <!--end::Container-->
     </div>
-</x-farmer-layout>
+    <!--end::Toolbar-->
+    <!--begin::Container-->
+    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+        <!--begin::Post-->
+        <div class="content flex-row-fluid" id="kt_content">
+            <!--begin::Row-->
+            <div class="row g-5 g-xl-8">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+
+                    <!--begin::Engage Widget 11-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="p-0 card-body d-flex">
+                            <div class="p-20 pb-40 flex-grow-1 card-rounded bgi-no-repeat">
+                                <a href="{{route('screening.create')}}" type="button" class="mb-3 btn btn-success">
+                                    Add Screening
+                                  </a>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Plant
+                                                </th>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>
+                                                    Screening
+                                                </th>
+                                                {{-- <th>
+                                                    Edit
+                                                </th> --}}
+                                                <th>
+                                                    Delete
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($screening as $item)
+                                                <tr>
+                                                    <td>
+                                                        {{$item->plant->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$item->date_time}}
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-primary" href="{{route('sub_screening', $item->id)}}">Sub Screening</a>
+                                                    </td>
+                                                    {{-- <td>
+                                                        <a class="btn btn-info" href="{{route('screening.edit', $item->id)}}">Edit</a>
+                                                    </td> --}}
+                                                    <td>
+                                                        <form action="{{route('screening.destroy', $item->id)}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Engage Widget 11-->
+                </div>
+                <!--end::Col-->
+
+            </div>
+            <!--end::Row-->
+
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::Container-->
+@endsection

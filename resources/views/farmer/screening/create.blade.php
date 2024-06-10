@@ -1,39 +1,75 @@
-<x-farmer-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Add Screening') }}
-        </h2>
-    </x-slot>
+@extends('layouts.new_farmer')
+@section('title', 'Add Screening')
+@section('contents')
+    <!--begin::Toolbar-->
+    <div class="py-5 toolbar pb-lg-15" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="flex-wrap container-xxl d-flex flex-stack">
+            <!--begin::Page title-->
+            <div class="page-title d-flex flex-column me-3">
+                <!--begin::Title-->
+                <h1 class="my-1 text-white d-flex fw-bold fs-3">Add Screening</h1>
+                <!--end::Title-->
+                <!--begin::Breadcrumb-->
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <form method="post" action="{{ route('screening.store') }}" class="mt-6 space-y-6">
-                        @csrf
-
-                        <div>
-                            <x-input-label for="date" :value="__('Date')" />
-                            <x-text-input id="date" name="date_time" type="datetime-local" class="block mt-1 w-full" />
-                        </div>
-
-                        <div>
-                            <x-input-label for="plant" :value="__('Plant')" />
-                            <select class="block mt-1 w-full" name="plant_id" id="plant_id">
-                                @foreach ($plants as $item)
-                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-
-
-                        <div class="flex gap-4 items-center">
-                            <x-primary-button>{{ __('Save') }}</x-primary-button>
-                        </div>
-                    </form>
-                </div>
+                <!--end::Breadcrumb-->
             </div>
+            <!--end::Page title-->
+
         </div>
+        <!--end::Container-->
     </div>
-</x-farmer-layout>
+    <!--end::Toolbar-->
+    <!--begin::Container-->
+    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+        <!--begin::Post-->
+        <div class="content flex-row-fluid" id="kt_content">
+            <!--begin::Row-->
+            <div class="row g-5 g-xl-8">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+
+                    <!--begin::Engage Widget 11-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="p-0 card-body d-flex">
+                            <div class="p-20 pb-40 flex-grow-1 card-rounded bgi-no-repeat">
+                                <form method="post" action="{{ route('screening.store') }}">
+                                    @csrf
+                                    <div class="card-body">
+
+                                        <div class="mb-5 form-group">
+                                            <label>Date <span class="text-danger">*</span></label>
+                                            <input name="date_time" required type="datetime-local" class="form-control">
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleSelect1">Plant <span class="text-danger">*</span></label>
+                                            <select class="form-control" required name="plant_id" id="plant_id">
+                                                @foreach ($plants as $item)
+                                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="mr-2 btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Engage Widget 11-->
+                </div>
+                <!--end::Col-->
+
+            </div>
+            <!--end::Row-->
+
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::Container-->
+@endsection

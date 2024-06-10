@@ -34,7 +34,7 @@
         </div>
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/2.0.1/tf.min.js"></script>
-    
+
     <!-- Load the  External Javascript file for web app's functionality -->
-    <script src="{{asset('script.js')}}"></script>
+    <script src="{{asset('script.js?v=6')}}"></script>
 </html>

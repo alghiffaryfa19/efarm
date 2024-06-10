@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(\App\Models\Farmer::class, 'user_id','id');
     }
+
+    public function screening()
+    {
+        return $this->hasMany(\App\Models\Screening::class, 'user_id','id');
+    }
 }
