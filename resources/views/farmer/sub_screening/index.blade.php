@@ -1,47 +1,144 @@
-<x-farmer-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Start Screening') }}
-        </h2>
-    </x-slot>
+@extends('layouts.new_farmer')
+@section('title', 'Start Screening')
+@section('contents')
+    <!--begin::Toolbar-->
+    <div class="py-5 toolbar pb-lg-15" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="flex-wrap container-xxl d-flex flex-stack">
+            <!--begin::Page title-->
+            <div class="page-title d-flex flex-column me-3">
+                <!--begin::Title-->
+                <h1 class="my-1 text-white d-flex fw-bold fs-3">Start Screening</h1>
+                <!--end::Title-->
+                <!--begin::Breadcrumb-->
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-
-
-
-                <div class="p-6 text-gray-900">
-                    <a href="{{route('start_screening', $screening->id)}}" type="button" class="inline-flex gap-x-2 items-center px-4 py-3 text-sm font-semibold text-white bg-blue-600 rounded-lg border border-transparent hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-basic-modal">
-                        Start Screening
-                      </a>
-                    <div class="flex flex-col">
-                        <div class="overflow-x-auto -m-1.5">
-                          <div class="inline-block p-1.5 min-w-full align-middle">
-                            <div class="overflow-hidden">
-                              <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                  <tr>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-start">Photo</th>
-                                    <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-start">Desc</th>
-                                  </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    @foreach ($sub_screening as $item)
-                                    <tr>
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"><img src="{{asset('uploads/'.$item->photo)}}" alt="" id="image" width="224" height="224"></td>
-                                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">{{$item->description}}</td>
-
-                                      </tr>
-                                    @endforeach
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                </div>
+                <!--end::Breadcrumb-->
             </div>
+            <!--end::Page title-->
+
         </div>
+        <!--end::Container-->
     </div>
-</x-farmer-layout>
+    <!--end::Toolbar-->
+    <!--begin::Container-->
+    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+        <!--begin::Post-->
+        <div class="content flex-row-fluid" id="kt_content">
+            <!--begin::Row-->
+            <div class="row g-5 g-xl-8">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+
+                    <!--begin::Engage Widget 11-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="p-0 card-body d-flex">
+                            <div class="p-20 pb-40 flex-grow-1 card-rounded bgi-no-repeat">
+                                <a href="{{route('start_screening', $screening->id)}}" type="button" class="mb-3 btn btn-success">
+                                    Start Screening
+                                  </a>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Photo
+                                                </th>
+                                                <th>
+                                                    Desc
+                                                </th>
+                                                <th>
+                                                    Desc
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($sub_screening as $item)
+                                                <tr>
+                                                    <td>
+                                                        <img src="{{asset('uploads/'.$item->photo)}}" class="img-fluid">
+                                                    </td>
+                                                    <td>
+                                                        {{$item->disease->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$item->disease->id_name}}
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Engage Widget 11-->
+                </div>
+                <!--end::Col-->
+
+            </div>
+            <div class="row g-5 g-xl-8">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+
+                    <!--begin::Engage Widget 11-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="p-0 card-body d-flex">
+                            <div class="p-20 pb-40 flex-grow-1 card-rounded bgi-no-repeat">
+                                <h4>Rekomendasi Pengobatan</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Disease
+                                                </th>
+                                                <th>
+                                                    Penyakit
+                                                </th>
+                                                <th>
+                                                    Rekomendasi
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($ds as $item)
+                                            <tr>
+                                                <td>{{$item->name}}</td>
+                                                <td>{{$item->id_name}}</td>
+                                                <td>
+                                                    <ul>
+                                                        @foreach ($item->recommendations as $rc)
+                                                        <li>
+                                                            {{$rc->recommendation}}
+                                                        </li>
+                                                        @endforeach
+
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Engage Widget 11-->
+                </div>
+                <!--end::Col-->
+
+            </div>
+            <!--end::Row-->
+
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::Container-->
+@endsection

@@ -1,59 +1,111 @@
-<x-owner-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Farmer') }}
-        </h2>
-    </x-slot>
+@extends('layouts.new_owner')
+@section('title', 'Account')
+@section('contents')
+    <!--begin::Toolbar-->
+    <div class="py-5 toolbar pb-lg-15" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="flex-wrap container-xxl d-flex flex-stack">
+            <!--begin::Page title-->
+            <div class="page-title d-flex flex-column me-3">
+                <!--begin::Title-->
+                <h1 class="my-1 text-white d-flex fw-bold fs-3">Account</h1>
+                <!--end::Title-->
+                <!--begin::Breadcrumb-->
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-
-
-
-                <div class="p-6 text-gray-900">
-                    <a href="{{route('farmer.create')}}" type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-basic-modal">
-                        Add Farmer
-                      </a>
-                    <div class="flex flex-col">
-                        <div class="-m-1.5 overflow-x-auto">
-                          <div class="p-1.5 min-w-full inline-block align-middle">
-                            <div class="overflow-hidden">
-                              <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                  <tr>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>
-                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Email</th>
-                                    <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Edit</th>
-                                    <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Delete</th>
-                                  </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    @foreach ($farmer as $item)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$item->user->name}}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{$item->user->email}}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                          <a href="{{route('farmer.edit', $item->id)}}" type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Edit</a>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                            <form action="{{route('farmer.destroy', $item->id)}}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Delete</button>
-                                            </form>
-
-                                          </td>
-                                      </tr>
-                                    @endforeach
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                </div>
+                <!--end::Breadcrumb-->
             </div>
+            <!--end::Page title-->
+
         </div>
+        <!--end::Container-->
     </div>
-</x-owner-layout>
+    <!--end::Toolbar-->
+    <!--begin::Container-->
+    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+        <!--begin::Post-->
+        <div class="content flex-row-fluid" id="kt_content">
+            <!--begin::Row-->
+            <div class="row g-5 g-xl-8">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+
+                    <!--begin::Engage Widget 11-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="p-0 card-body d-flex">
+                            <div class="p-20 pb-40 flex-grow-1 card-rounded bgi-no-repeat">
+                                <a href="{{route('farmer.create')}}" type="button" class="mb-3 btn btn-success">
+                                    Add Account
+                                  </a>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Name
+                                                </th>
+                                                <th>
+                                                    Role
+                                                </th>
+                                                <th>
+                                                    Email
+                                                </th>
+                                                <th>
+                                                    Edit
+                                                </th>
+                                                <th>
+                                                    Delete
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($farmer as $item)
+                                                <tr>
+                                                    <td>
+                                                        {{$item->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$item->role->name}}
+                                                    </td>
+                                                    <td>
+                                                        {{$item->email}}
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->role_id == 1 && $item->id != auth()->user()->id)
+                                                        Tidak Dapat Diedit
+                                                        @else
+                                                        <a class="btn btn-info" href="{{route('farmer.edit', $item->id)}}">Edit</a>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->role_id == 1)
+                                                        Tidak Dapat Dihapus
+                                                        @else
+                                                        <form action="{{route('farmer.destroy', $item->id)}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                        @endif
+
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Engage Widget 11-->
+                </div>
+                <!--end::Col-->
+
+            </div>
+            <!--end::Row-->
+
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::Container-->
+@endsection

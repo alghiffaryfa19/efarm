@@ -16,9 +16,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        if (auth()->user()->role == 'Owner') {
+            $ext = 'layouts.new_owner';
+        } else {
+            $ext = 'layouts.new_farmer';
+        }
+
+        $user = $request->user();
+
+        return view('profile.edit', compact('user','ext'));
     }
 
     /**

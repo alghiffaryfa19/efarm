@@ -11,9 +11,9 @@ class Screening extends Model
     protected $table='screenings';
     protected $guarded = [];
 
-    public function farmer()
+    public function user()
     {
-        return $this->belongsTo(\App\Models\Farmer::class, 'farmer_id','id');
+        return $this->belongsTo(\App\Models\User::class, 'user_id','id');
     }
 
     public function plant()

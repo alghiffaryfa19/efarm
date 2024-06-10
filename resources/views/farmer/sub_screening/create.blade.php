@@ -1,69 +1,93 @@
-<x-farmer-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Start Screening') }}
-        </h2>
-    </x-slot>
+@extends('layouts.new_farmer')
+@section('title', 'Start Screening')
+@section('contents')
+    <!--begin::Toolbar-->
+    <div class="py-5 toolbar pb-lg-15" id="kt_toolbar">
+        <!--begin::Container-->
+        <div id="kt_toolbar_container" class="flex-wrap container-xxl d-flex flex-stack">
+            <!--begin::Page title-->
+            <div class="page-title d-flex flex-column me-3">
+                <!--begin::Title-->
+                <h1 class="my-1 text-white d-flex fw-bold fs-3">Start Screening</h1>
+                <!--end::Title-->
+                <!--begin::Breadcrumb-->
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <form method="post" enctype="multipart/form-data" action="{{route('save_screening', $screening->id)}}" class="mt-6 space-y-6">
-                        @csrf
-                        <div>
-                            <div class="upload-btn-wrapper">
-                                <button class="btn upload-file font-weight-500">
-                                    <span class="upload-btn">
-                                        <i class="pb-2 material-icons d-block font-50">cloud_upload</i>
-                                        <p id="choose-text-1">Choose Image of Crop leaf</p>
-                                    </span>
-                                    <span class="upload-select-button" id="blankFile-1">
-                                        *Supports .png, .jpg, .jpeg, .jfif
-                                    </span>
-                                    <span class="success-1">
-                                        <i class="material-icons text-success">check</i>
-                                    </span>
-                                </button>
-                                <input type="file" name="uploadImage" id="uploadImage">
-                            </div>
+                <!--end::Breadcrumb-->
+            </div>
+            <!--end::Page title-->
 
-                        </div>
-                        <div class="box">
-                            <!-- Image Box which displays the Uploaded image -->
-                            <img src="" alt="" id="image" width="224" height="224">
-                        </div>
-                        <div class="box box-result">
-                            <!--  Simple div which shows the Model Loading Status  -->
-                            <div class="init_status"></div>
-                            <div>
-                                <div>
-                                    <x-input-label for="date" :value="__('Your Plant is infected with :')" />
-                                    <x-text-input readonly id="description" name="description" type="text" class="block mt-1 w-full pred_class" />
-                                </div>
-                            </div>
-                            {{-- <div class="accuracy">
-                                <!--  Simple progress bar which indicates the accuracy for the predicted class -->
-                                <div class="progress" id="progress">
-                                    <div class="inner">
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Container-->
+    <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
+        <!--begin::Post-->
+        <div class="content flex-row-fluid" id="kt_content">
+            <!--begin::Row-->
+            <div class="row g-5 g-xl-8">
+                <!--begin::Col-->
+                <div class="col-xl-12">
+
+                    <!--begin::Engage Widget 11-->
+                    <div class="card card-custom card-stretch gutter-b">
+                        <div class="p-0 card-body d-flex">
+                            <div class="p-20 pb-40 flex-grow-1 card-rounded bgi-no-repeat">
+                                <form method="post" enctype="multipart/form-data" action="{{ route('save_screening', $screening->id) }}">
+                                    @csrf
+                                    <div class="card-body">
+
+                                        <div class="mb-5 form-group">
+                                            <div class="upload-btn-wrapper">
+                                                <label for="exampleSelect1">Upload a picture of the diesase leave : </label>
+                                                <span class="upload-select-button" id="blankFile-1">
+                                                    *Supports .png, .jpg, .jpeg, .jfif
+                                                </span>
+                                                <input type="file" name="uploadImage" class="form-control" id="uploadImage">
+                                                <span class="success-1">
+                                                    Check
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group box">
+                                            <img src="" alt="" id="image" width="224" height="224">
+                                        </div>
+
+                                        <div class="form-group box box-result">
+                                            <div class="init_status"></div>
+                                            <div>
+                                                <div>
+                                                    <label for="exampleSelect1">Your plant is infected with : </label>
+                                                    <input type="text" required class="form-control pred_class" readonly id="description" name="description">
+
+                                                </div>
+                                            </div>
+                                            <div class="inner">
+
+                                            </div>
+                                            <p style="padding : 10px;"> CONFIDENCE : <b><span class="confidence"></span></b> %</p>
+                                        </div>
+
 
                                     </div>
-                                  </div>
-                            </div> --}}
+                                    <div class="card-footer">
+                                        <button type="submit" class="mr-2 btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <p style="padding : 10px;"> CONFIDENCE : <b><span class="confidence"></span></b> %</p>
-
-
-
-
-
-                        <div class="flex gap-4 items-center">
-                            <x-primary-button>{{ __('Save') }}</x-primary-button>
-                        </div>
-                    </form>
+                    </div>
+                    <!--end::Engage Widget 11-->
                 </div>
-            </div>
-        </div>
-    </div>
+                <!--end::Col-->
 
-</x-farmer-layout>
+            </div>
+            <!--end::Row-->
+
+        </div>
+        <!--end::Post-->
+    </div>
+    <!--end::Container-->
+@endsection

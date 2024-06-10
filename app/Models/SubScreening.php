@@ -15,4 +15,9 @@ class SubScreening extends Model
     {
         return $this->belongsTo(\App\Models\Screening::class, 'screening_id','id');
     }
+
+    public function disease()
+    {
+        return $this->belongsTo(\App\Models\Disease::class, 'disease_id','id');
+    }
 }

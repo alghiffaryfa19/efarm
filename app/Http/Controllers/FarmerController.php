@@ -13,7 +13,7 @@ class FarmerController extends Controller
 {
     public function index()
     {
-        $farmer = Farmer::with('user')->get();
+        $farmer = User::with('role')->get();
         return view('owner.farmer.index', compact('farmer'));
     }
 
@@ -34,14 +34,26 @@ class FarmerController extends Controller
 
         try {
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => 2,
-            ]);
+            if ($request->role_id == 1) {
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role_id' => 1,
+                ]);
+            } else {
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'role_id' => 2,
+                ]);
 
-            $user->farmer()->create([]);
+                $user->farmer()->create([]);
+            }
+
+
+
 
             DB::commit();
 
@@ -54,41 +66,40 @@ class FarmerController extends Controller
 
     public function edit($id)
     {
-        $farmer = Farmer::with('user')->find($id);
+        $farmer = User::find($id);
         return view('owner.farmer.edit', compact('farmer'));
     }
 
     public function update(Request $request,$id)
     {
-        $farmer = Farmer::with('user')->find($id);
+        $farmer = User::find($id);
 
         $request->validate([
-            'email' => 'required|email|unique:users,email,' . $farmer->user->id,
+            'email' => 'required|email|unique:users,email,' . $farmer->id,
             'name' => 'required',
         ]);
 
-        $farmer = Farmer::with('user')->find($id);
+        //$farmer = Farmer::with('user')->find($id);
 
         DB::beginTransaction();
 
         try {
 
-            $farmer->user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => 2,
-            ]);
+            // $farmer->update([
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'password' => Hash::make($request->password),
+            // ]);
 
             if (empty($request->password)) {
-                $farmer->user->update([
+                $farmer->update([
                     'email' => $request->email,
                     'name' => $request->name,
                 ]);
 
 
             } else {
-                $farmer->user->update([
+                $farmer->update([
                     'email' => $request->email,
                     'name' => $request->name,
                     'password' => Hash::make($request->password),
@@ -110,9 +121,9 @@ class FarmerController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $farmer = Farmer::with('user')->find($id);
+        $farmer = User::find($id);
         if ($farmer) {
-            $farmer->user()->delete();
+            $farmer->delete();
         }
 
         return redirect()->route('farmer.index');

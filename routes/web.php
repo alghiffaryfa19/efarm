@@ -7,6 +7,8 @@ use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\DashboardFarmerController;
 use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\SubScreeningController;
+use App\Http\Controllers\ScreeningOwnerController;
+use App\Http\Controllers\SubScreeningOwnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,16 @@ Route::get('/', function () {
 Route::group(['prefix' => 'owner', 'middleware' => ['auth', 'owner']], function () {
     Route::get('dashboard', [DashboardOwnerController::class, 'index'])->name('owner');
     Route::resource('farmer', FarmerController::class);
+
+    Route::get('/profile', [DashboardOwnerController::class, 'edit'])->name('owner.profile.edit');
+    Route::patch('/profile', [DashboardOwnerController::class, 'update'])->name('owner.profile.update');
+    Route::delete('/profile', [DashboardOwnerController::class, 'destroy'])->name('owner.profile.destroy');
+
+    Route::resource('screening-owner', ScreeningOwnerController::class);
+
+    Route::get('screening/{id}/start', [SubScreeningOwnerController::class, 'index'])->name('sub_screening.owner');
+    Route::get('screening/{id}/start/create', [SubScreeningOwnerController::class, 'create'])->name('start_screening.owner');
+    Route::post('screening/{id}/start/save', [SubScreeningOwnerController::class, 'save'])->name('save_screening.owner');
 });
 
 Route::group(['prefix' => 'farmer', 'middleware' => ['auth', 'farmer']], function () {
@@ -39,16 +51,16 @@ Route::group(['prefix' => 'farmer', 'middleware' => ['auth', 'farmer']], functio
     Route::get('screening/{id}/start', [SubScreeningController::class, 'index'])->name('sub_screening');
     Route::get('screening/{id}/start/create', [SubScreeningController::class, 'create'])->name('start_screening');
     Route::post('screening/{id}/start/save', [SubScreeningController::class, 'save'])->name('save_screening');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
 
 require __DIR__.'/auth.php';

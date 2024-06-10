@@ -10,7 +10,7 @@ class ScreeningController extends Controller
 {
     public function index()
     {
-        $screening = Screening::with('plant')->where('farmer_id',auth()->user()->farmer->id)->get();
+        $screening = Screening::with('plant')->where('user_id',auth()->user()->id)->get();
         return view('farmer.screening.index', compact('screening'));
     }
 
@@ -30,7 +30,7 @@ class ScreeningController extends Controller
         Screening::create([
             'date_time' => $request->date_time,
             'plant_id' => $request->plant_id,
-            'farmer_id' => auth()->user()->farmer->id,
+            'user_id' => auth()->user()->id,
         ]);
 
         return redirect()->route('screening.index');
